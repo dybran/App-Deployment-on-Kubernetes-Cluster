@@ -91,9 +91,9 @@ We will encode the passwords and give the encoded value in the secret definition
 
 To encode the password for Mysql and Rabbit MQ
 
-`$ echo -n "password" | base64`
+`$ echo -n "<db-password>" | base64`
 
-`$ echo -n "guest" | base64`
+`$ echo -n "<rmq-password>" | base64`
 
 ![](./images/g.PNG)
 
