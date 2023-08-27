@@ -176,4 +176,4 @@ spec:
 ![](./images/tt.PNG)
 ![](./images/tt2.PNG)
 
-In the above, the __"initContainers"__ section runs a container in the pod that aims at removing the __"lost+found"__ directory created when the EBS volume is formated using __ext4__. If the __lost+found__ directory is not removed there will be errors stating that the volume is not empty.
+The __"initContainers"__ section above runs a container in the pod that aims at removing the __"lost+found"__ directory created when the EBS volume is formated using __ext4__. If the __lost+found__ directory is not removed there will be errors stating that the volume is not empty.
