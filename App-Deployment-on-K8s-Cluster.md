@@ -53,6 +53,16 @@ Create EBS volume to store the data which gets created in __/var/lib/mysql__ vol
 
 ![](./images/d.PNG)
 
+Tag the EBS volume with the name of the kubernetes cluster
+
+`$ aws ec2 create-tags --resources vol-0cb615961d5a826d3 --tags Key=KubernetesCluster,Value=mydevopsproject.top`
+
+Verify
+
+`$ aws ec2 describe-volumes --volume-ids vol-0cb615961d5a826d3 --query 'Volumes[0].Tags'`
+
+![](./images/tg.PNG)
+
 Ensure that you carefully record both the __volume ID__ and __zone__ of the EBS volume. The DB pod is created within a node situated in the same availability zone where the EBS volume was created. This can be achieved by utilizing the __"node selector"__ within the definition file.
 
 To label the nodes according to their availability zones- __us-east-1a__ and __us-east-1b__
@@ -65,7 +75,15 @@ To label the nodes according to their availability zones- __us-east-1a__ and __u
 
 ![](./images/e.PNG)
 
-I plan to utilize images I have previously uploaded to DockerHub. Specifically, I will work with the images named __dybran/vprofileapp__ - for app and __dybran/vprofiledb__ - for database. Instead of directly using __dybran/vprofileweb__, I will set up a Load Balancer as part of the process to replace it.
+Verify
+
+`$ kubectl get nodes --show-labels`
+
+![](./images/12.PNG)
+
+I plan to utilize images I have previously uploaded to DockerHub in [__Containerizing a Java stack App Project__](https://github.com/dybran/Containerizing-a-JAVA-Stack-Application/blob/main/Containerizing-an-application-using-docker.md).
+
+Specifically, I will work with the images names __dybran/vprofileapp__ - for app and __dybran/vprofiledb__ - for database. Instead of directly using __dybran/vprofileweb__, I will set up a Load Balancer as part of the process to replace it.
 
 From [__Containerizing a Java stack App Project__](https://github.com/dybran/Containerizing-a-JAVA-Stack-Application/blob/main/Containerizing-an-application-using-docker.md), we need to take note of the passwords for the __Mysql database__ and the __Rabbit MQ__ which can be found [here](https://github.com/dybran/Containerizing-a-JAVA-Stack-Application/blob/main/project/src/main/resources/application.properties).
 
@@ -79,7 +97,7 @@ To encode the password for Mysql and Rabbit MQ
 
 ![](./images/g.PNG)
 
-Write the __secret__ definition file
+__Write the "secret" definition__
 
 ```
 apiVersion: v1
@@ -93,3 +111,69 @@ data:
 ```
 
 ![](./images/h.PNG)
+
+Create the secret definition file
+
+`$ kubectl apply -f secret.yml`
+
+`$ kubectl get secret`
+
+`$ kubectl describe secret`
+
+![](./images/11.PNG)
+
+When we run the __"kubectl describe"__ command, the values of the encoded secrets are shown in bytes.
+
+__Write the "DB Deployment" definition__
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-vprofile
+  labels:
+    app: db-vprofile
+spec:
+  selector:
+    matchLabels:
+      app: db-vprofile
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: db-vprofile
+    spec:
+      containers:
+      - name: db-vprofile
+        image: dybran/vprofiledb
+        volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: db-vprofile-data
+        ports:
+        - name: vprodb-port
+          containerPort: 3306
+        env:
+         - name: MYSQL_ROOT_PASSWORD
+           valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: db-pass
+      nodeSelector:
+        zone: us-east-1a
+      volumes:
+        - name: db-vprofile-data
+          awsElasticBlockStore:
+            volumeID:  vol-0cb615961d5a826d3
+            fsType: ext4
+      initContainers:
+        - name: busybox
+          image: busybox:latest
+          args: ["rm", "-rf", "var/lib/mysql/lost+found"]
+          volumeMounts:
+            - name: db-vprofile-data
+              mountPath: /var/lib/mysql
+```
+![](./images/tt.PNG)
+![](./images/tt2.PNG)
+
+In the above, the __"initContainers"__ section runs a container in the pod that aims at removing the __"lost+found"__ directory created when the EBS volume is formated using __ext4__. If the __lost+found__ directory is not removed there will be errors stating that the volume is not empty.
