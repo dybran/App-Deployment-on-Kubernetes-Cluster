@@ -87,7 +87,7 @@ Specifically, I will work with the images names __dybran/vprofileapp__ - for app
 
 From [__Containerizing a Java stack App Project__](https://github.com/dybran/Containerizing-a-JAVA-Stack-Application/blob/main/Containerizing-an-application-using-docker.md), we need to take note of the passwords for the __Mysql database__ and the __Rabbit MQ__ which can be found [here](https://github.com/dybran/Containerizing-a-JAVA-Stack-Application/blob/main/project/src/main/resources/application.properties).
 
-We will encode the passwords and give the encoded value in the secret definition file we will write.
+We will encode the passwords and give the encoded value in the secret definition file.
 
 To encode the password for Mysql and Rabbit MQ
 
