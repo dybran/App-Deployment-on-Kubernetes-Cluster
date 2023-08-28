@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dbvprofile
+  labels:
+    app: dbvprofile
+spec:
+  selector:
+    matchLabels:
+      app: dbvprofile
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dbvprofile
+    spec:
+      containers:
+        - name: dbvprofile
+          image: dybran/vprofiledb:latest
+          volumeMounts:
+           - name: db-vprofile-data
+             mountPath: /var/lib/mysql
+          ports:
+            - name: vprodb-port
+              containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: db-pass
+      nodeSelector:
+        zone: us-east-1a
+      volumes:
+        - name: db-vprofile-data
+          awsElasticBlockStore:
+            volumeID: vol-0d48fe61785597b01
+            fsType: ext4
+      initContainers:
+        - name: busybox
+          image: busybox:latest
+          args: ["rm", "-rf", "/var/lib/mysql/lost+found"]
+          volumeMounts:
+            - name: db-vprofile-data
+              mountPath: /var/lib/mysql

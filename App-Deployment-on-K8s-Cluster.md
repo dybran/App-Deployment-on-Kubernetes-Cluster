@@ -124,7 +124,7 @@ Create the secret definition file
 
 When we run the __"kubectl describe"__ command, the values of the encoded secrets are shown in bytes.
 
-__Write the "DB Deployment" definition__
+__Write the "DB Deployment" and "service" Definition__
 
 ```
 apiVersion: apps/v1
@@ -145,7 +145,7 @@ spec:
     spec:
       containers:
       - name: db-vprofile
-        image: dybran/vprofiledb
+        image: dybran/vprofiledb:latest
         volumeMounts:
           - mountPath: /var/lib/mysql
             name: db-vprofile-data
@@ -173,7 +173,28 @@ spec:
             - name: db-vprofile-data
               mountPath: /var/lib/mysql
 ```
-![](./images/tt.PNG)
-![](./images/tt2.PNG)
+![](./images/112.PNG)
+![](./images/113.PNG)
 
 The __"initContainers"__ section above runs a container in the pod that aims at removing the __"lost+found"__ directory created when the EBS volume is formated using __ext4__. If the __lost+found__ directory is not removed there will be errors stating that the volume is not empty.
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: vprodb
+spec:
+  ports:
+   - port: 3306
+     targetPort: vprodb-port
+     protocol: TCP
+  selector:
+    app: db-vprofile
+```
+![](./images/svc.PNG)
+
+## __N/B:__
+All the __name__ in the service definition files in this setup will be based on the __application.properties__ file [here](https://github.com/dybran/Containerizing-a-JAVA-Stack-Application/blob/main/project/src/main/resources/application.properties) as seen in the above screenshot. e.g __name: vprodb__
+
+All the deployment and the service definition files for the
+is set up can be found [here](https://github.com/dybran/App-Deployment-on-Kubernetes-Cluster).
