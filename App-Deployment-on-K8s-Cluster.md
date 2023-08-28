@@ -124,7 +124,9 @@ Create the secret definition file
 
 When we run the __"kubectl describe"__ command, the values of the encoded secrets are shown in bytes.
 
-__Write the "DB Deployment" and "service" Definition__
+__Write the "Deployment" and "service" Definition__
+
+__For DB Deployment__
 
 ```
 apiVersion: apps/v1
@@ -177,6 +179,8 @@ spec:
 ![](./images/113.PNG)
 
 The __"initContainers"__ section above runs a container in the pod that aims at removing the __"lost+found"__ directory created when the EBS volume is formated using __ext4__. If the __lost+found__ directory is not removed there will be errors stating that the volume is not empty.
+
+__For DB service__
 
 ```
 apiVersion: v1
