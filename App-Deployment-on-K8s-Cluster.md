@@ -196,5 +196,4 @@ spec:
 ## __N/B:__
 All the __name__ in the service definition files in this setup will be based on the __application.properties__ file [here](https://github.com/dybran/Containerizing-a-JAVA-Stack-Application/blob/main/project/src/main/resources/application.properties) as seen in the above screenshot. e.g __name: vprodb__
 
-All the deployment and the service definition files for the
-is set up can be found [here](https://github.com/dybran/App-Deployment-on-Kubernetes-Cluster).
+The __deployment__ and __service__ definition files for this set up can be found [__here__](https://github.com/dybran/App-Deployment-on-Kubernetes-Cluster/tree/main/app-deloy).
