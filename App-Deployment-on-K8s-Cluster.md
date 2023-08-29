@@ -293,5 +293,49 @@ __Kubernetes Lens Monitoring dashboard setup__
 
 Kubernetes Lens is a graphical user interface (GUI) tool designed to help developers and operators manage Kubernetes clusters more effectively. It provides a streamlined and user-friendly way to interact with and monitor your Kubernetes clusters, making it easier to visualize, troubleshoot, and manage applications and resources running on Kubernetes.
 
+Refer to the [Kubernetes Lens official documentation](https://docs.k8slens.dev/) when setting up Lens.
+
 Download and Install __Kubernetes Lens__ through the browser.
 
+![](./images/lens1.PNG)
+
+From the __"+"__ sign, select __"add cluster from kubeconfig"__
+
+![](./images/lens2.PNG)
+
+Add __.kube/config__
+
+![](./images/lens3.PNG)
+![](./images/lens5.PNG)
+![](./images/lens4.PNG)
+
+Kubernetes Lens employs Prometheus for monitoring metrics. In case Prometheus is pre-installed, the tool can readily retrieve metrics from it.
+
+Alternatively, Kubernetes Lens offers the flexibility to set up a custom Prometheus instance if needed.
+
+![](./images/lens7.PNG)
+![](./images/lens8.PNG)
+![](./images/lens9.PNG)
+
+Click on __ESC__
+
+![](./images/lens10.PNG)
+
+We can now see the metrics of the cluster
+
+![](./images/lens11.PNG)
+
+Node metrics
+
+![](./images/lens12.PNG)
+
+Deployment metrics
+
+![](./images/lens13.PNG)
+
+We can check the logs 
+
+![](./images/lens7.PNG)
+![](./images/lens20.PNG)
+
+__We have deployed our application on Kubernetes for production and also implementated monitoring using Kubernetes Lens__.
