@@ -321,7 +321,6 @@ Kubernetes Lens employs Prometheus for monitoring metrics. In case Prometheus is
 
 Alternatively, Kubernetes Lens offers the flexibility to set up a custom Prometheus instance if needed.
 
-![](./images/lens7.PNG)
 ![](./images/lens8.PNG)
 ![](./images/lens9.PNG)
 
