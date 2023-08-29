@@ -1,7 +1,7 @@
 ## WEB APPLICATION DEPLOYMENT ON KUBERNETES CLUSTER AND MONITORING WITH LENS
 
 
-The important concepts and requirements in the context of deploying and managing applications using Kubernetes, a popular container orchestration platform include:
+The important concepts and requirements in the context of deploying and managing applications using Kubernete include:
 
 __High Availability (HA)__: This refers to the ability of a system to continue functioning and providing services even in the presence of failures. In Kubernetes, high availability is achieved by running multiple instances of your containers (replicas) across different nodes in the cluster. If one node or container fails, the workload can be automatically moved to a healthy node, minimizing downtime.
 
