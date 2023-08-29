@@ -289,7 +289,7 @@ We can attach a subdomain name to the loadbalancer endpoint through __route 53__
 ![](./images/22.PNG)
 ![](./images/23.PNG)
 
-__Kubernetes Lens Monitoring dashbord setup__
+__Kubernetes Lens Monitoring dashboard setup__
 
 Kubernetes Lens is a graphical user interface (GUI) tool designed to help developers and operators manage Kubernetes clusters more effectively. It provides a streamlined and user-friendly way to interact with and monitor your Kubernetes clusters, making it easier to visualize, troubleshoot, and manage applications and resources running on Kubernetes.
 
