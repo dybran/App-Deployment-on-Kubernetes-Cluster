@@ -338,4 +338,4 @@ We can check the logs
 ![](./images/lens7.PNG)
 ![](./images/lens20.PNG)
 
-__We have deployed our application on Kubernetes for production and also implementated monitoring using Kubernetes Lens__.
+__We have deployed our application on Kubernetes for production, while also implementing monitoring via Kubernetes Lens.__.
