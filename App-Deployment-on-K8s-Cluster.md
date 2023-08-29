@@ -197,7 +197,101 @@ spec:
 ```
 ![](./images/svc.PNG)
 
-## __N/B:__
-All the __name__ in the service definition files in this setup will be based on the __application.properties__ file [here](https://github.com/dybran/Containerizing-a-JAVA-Stack-Application/blob/main/project/src/main/resources/application.properties) as seen in the above screenshot. e.g __name: vprodb__
 
-The __deployment__ and __service__ definition files for this set up can be found [__here__](https://github.com/dybran/App-Deployment-on-Kubernetes-Cluster/tree/main/app-deloy).
+__For App__
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: vproapp-service
+spec:
+  ports:
+  - port: 80
+    targetPort: vproapp-port
+    protocol: TCP
+  selector:
+    app: app-vprofile
+  type: LoadBalancer
+```
+
+
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-vprofile
+  labels: 
+    app: app-vprofile
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-vprofile
+  template:
+    metadata:
+      labels:
+        app: app-vprofile
+    spec:
+      containers:
+      - name: app-vprofile
+        image: dybran/vprofileapp:latest
+        ports:
+        - name: vproapp-port
+          containerPort: 8080
+      initContainers:
+      - name: init-mydb
+        image: busybox
+        command: ['sh', '-c', 'until nslookup vprodb.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done;']
+      - name: init-memcache
+        image: busybox
+        command: ['sh', '-c', 'until nslookup vprocache01.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done;']
+```
+![](./images/iii.PNG)
+
+In the __app__ definition file above, our intention is to ensure that the __db__ and __memcached__ deployments initiate and become operational prior to the commencement of the app deployment. To achieve this sequencing, we will once again execute init containers and issue specific commands within them. These commands are designed to verify the accessibility of __vprodb__ and __vprocache01__. Only once the __db__ and __memecache__ systems are up and running will these init containers conclude their operations, paving the way for the app container to start.
+
+The underlying command within this process employs a loop mechanism. This loop utilizes the nslookup command to validate the DNS resolution for the hostnames `vprocache01.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local;` and `vprodb01.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local;`. 
+
+These hostnames are derived by extracting the content from the file located at __/var/run/secrets/kubernetes.io/serviceaccount/namespace__. The content of this file indicates the specific Kubernetes namespace within which the command is being executed.
+
+
+We then write the definition files for the __memechached__ and ___rabbit MQ__.
+
+## __N/B:__
+All the "__name__" in the service definition files in this setup will be based on the __application.properties__ file [here](https://github.com/dybran/Containerizing-a-JAVA-Stack-Application/blob/main/project/src/main/resources/application.properties) as seen in the above screenshot. e.g __name: vprodb__
+
+ The __deployment__ and __service__ definition files for this set up can be found [__here__](https://github.com/dybran/App-Deployment-on-Kubernetes-Cluster/tree/main/app-deloy).
+
+Apply
+
+`$ kubectl apply -f .`
+
+`$ kubectl get deploy`
+
+`kubectl get pods`
+
+`$kubectl get svc`
+
+![](./images/on.PNG)
+
+We can access the application from the browser using the loadbalancer endpoint.
+
+![](./images/qqq.PNG)
+![](./images/qqqq.PNG)
+
+__Attach a subdomain name to the load balancer__
+
+We can attach a subdomain name to the loadbalancer endpoint through __route 53__ by creating a __CNAME__ record.
+
+![](./images/21.PNG)
+![](./images/22.PNG)
+![](./images/23.PNG)
+
+__Kubernetes Lens Monitoring dashbord setup__
+
+Kubernetes Lens is a graphical user interface (GUI) tool designed to help developers and operators manage Kubernetes clusters more effectively. It provides a streamlined and user-friendly way to interact with and monitor your Kubernetes clusters, making it easier to visualize, troubleshoot, and manage applications and resources running on Kubernetes.
+
+Download and Install __Kubernetes Lens__ through the browser.
+
