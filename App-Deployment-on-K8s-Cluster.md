@@ -346,4 +346,16 @@ We can check the logs
 ![](./images/lens7.PNG)
 ![](./images/lens20.PNG)
 
-__We have deployed our application on Kubernetes, while also implementing monitoring via Kubernetes Lens.__.
+We have deployed our application on Kubernetes, while also implementing monitoring via Kubernetes Lens.
+
+To delete the resources/objects
+
+`$ kubectl delete -f .`
+
+![](./images/33.PNG)
+
+Delete the cluster
+
+`$ kops delete cluster --name=mydevopsproject.top --state=s3://project-kops-state --yes`
+
+![](./images/44.PNG)
