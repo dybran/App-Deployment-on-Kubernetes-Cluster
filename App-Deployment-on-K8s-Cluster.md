@@ -364,4 +364,4 @@ Delete the cluster
 
 __Problems encountered:__
 
-- I encountered a problem with my database image, which led me to rebuild it using the Dockerfile. Afterward, I proceeded to push the rebuilt image to DockerHub.
+- The pod responsible for the database deployment was found to be inactive. Upon troubleshooting, it appeared that the problem was from the image. To address this, I created a new version of the image using the Dockerfile. Following this, I proceeded to upload the to DockerHub.
