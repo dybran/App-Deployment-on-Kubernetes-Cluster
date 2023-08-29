@@ -305,6 +305,8 @@ Refer to the [Kubernetes Lens official documentation](https://docs.k8slens.dev/)
 
 Download and Install __Kubernetes Lens__ through the browser.
 
+You may need to restart PC for Kubernetes Lens to fuction properly.
+
 ![](./images/lens1.PNG)
 
 From the __"+"__ sign, select __"add cluster from kubeconfig"__
