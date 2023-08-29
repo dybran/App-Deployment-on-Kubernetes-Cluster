@@ -360,3 +360,8 @@ Delete the cluster
 `$ kops delete cluster --name=mydevopsproject.top --state=s3://project-kops-state --yes`
 
 ![](./images/44.PNG)
+
+
+__Problems encountered:__
+
+- I encountered a problem with my database image, which led me to rebuild it using the Dockerfile. Afterward, I proceeded to push the rebuilt image to DockerHub.
