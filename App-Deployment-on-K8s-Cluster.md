@@ -1,15 +1,23 @@
 ## WEB APPLICATION DEPLOYMENT ON KUBERNETES CLUSTER AND MONITORING WITH LENS
 
+
+The important concepts and requirements in the context of deploying and managing applications using Kubernetes, a popular container orchestration platform include:
+
+__High Availability (HA)__: This refers to the ability of a system to continue functioning and providing services even in the presence of failures. In Kubernetes, high availability is achieved by running multiple instances of your containers (replicas) across different nodes in the cluster. If one node or container fails, the workload can be automatically moved to a healthy node, minimizing downtime.
+
+__Fault Tolerance__: Fault tolerance is closely related to high availability. In Kubernetes, if a container becomes unresponsive or fails, the system can automatically detect this and take actions to recover it. This might involve restarting the container or rescheduling it onto a healthy node.
+
+__Scalability__: Kubernetes allows you to easily scale your applications by adjusting the number of container replicas running in your cluster. This can be done manually or automatically based on metrics like CPU utilization or incoming traffic. Kubernetes also supports horizontal scaling, which means you can add or remove instances of your application without modifying the underlying infrastructure.
+
+__Compatibility and Portability__: Kubernetes aims to provide a consistent environment for deploying and managing containers, regardless of the underlying infrastructure or cloud provider. This means that applications packaged as containers should work consistently across different Kubernetes clusters, cloud platforms (like AWS, Azure, Google Cloud), and on-premises environments.
+
+__Adaptability and Agility__: Kubernetes allows you to define your application's desired state through configuration files, which are usually written in YAML. This declarative approach makes it easy to modify and adapt your application's configuration, enabling quick adjustments to your application as requirements change. This agility is important for development, testing, and deployment workflows.
+
+__Multi-Environment Support__: Kubernetes supports deploying applications in different environments, such as development, quality assurance (QA), testing, and production. This is achieved through the use of namespaces and different configuration files for each environment. Each environment can have its own resources, access controls, and configurations, ensuring isolation and consistency.
+
 __SCENARIO:__
 
-In the scope, my objective is to take the web application that I have already containerized and tested as demonstrated in the [__Containerizing a Java stack App Project__](https://github.com/dybran/Containerizing-a-JAVA-Stack-Application/blob/main/Containerizing-an-application-using-docker.md) and proceed to deploy it onto a __Kubernetes cluster__ for production.
-
-__REQUIREMENT:__
-
-- __High availability:__ To ensure that containers remain operational without downtime, and it also extends to maintaining the availability of compute nodes.
-- __Fault tolerance:__ In the event that containers encounter issues and become unresponsive, they should automatically undergo a healing process.
-- __Easily scalable:__  The process of scaling containers and the associated compute resources they utilize should be effortless.
-- The Container should possess compatibility across various platforms attributes, ensuring portability, adaptability, and agility. It must have the capability to function seamlessly across cloud infrastructure and virtual machines, while also accommodating various environments including Development, Quality Assurance, Testing, and Production.
+In the scope, my objective is to take the web application that I have already containerized and tested as demonstrated in the [__Containerizing a Java stack App Project__](https://github.com/dybran/Containerizing-a-JAVA-Stack-Application/blob/main/Containerizing-an-application-using-docker.md) and proceed to deploy it onto a __Kubernetes cluster__.
 
 __TASK:__
 - Setup kubernetes cluster using kops
@@ -338,4 +346,4 @@ We can check the logs
 ![](./images/lens7.PNG)
 ![](./images/lens20.PNG)
 
-__We have deployed our application on Kubernetes for production, while also implementing monitoring via Kubernetes Lens.__.
+__We have deployed our application on Kubernetes, while also implementing monitoring via Kubernetes Lens.__.
